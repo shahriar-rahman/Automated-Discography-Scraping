@@ -35,7 +35,7 @@ class GenericUtils:
     @staticmethod
     def read_contents(directory):
         try:
-            with open(directory, 'r') as new_file:
+            with open(directory, 'r', encoding="utf-8") as new_file:
                 contents = new_file.read()
 
         except Exception as exc:

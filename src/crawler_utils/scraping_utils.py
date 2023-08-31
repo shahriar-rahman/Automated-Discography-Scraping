@@ -40,7 +40,7 @@ class ScrapingUtils:
     def bs4_scrape(soup, selector, keyword, attr=False):
         soup_type = type(soup)
 
-        if soup_type is bs4.BeautifulSoup or soup_type is bs4.element.Tag:
+        if soup_type is bs4.BeautifulSoup or soup_type is bs4.element.Tag or soup_type is bs4.element.ResultSet:
             try:
                 if selector == 'findAll' or selector == 'find_all':
                     if attr:

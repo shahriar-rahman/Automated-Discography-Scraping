@@ -29,7 +29,7 @@ class GetDiscography:
     def __init__(self):
         # Chrome Set-ups
         self.options = webdriver.ChromeOptions()
-        ChromeConfig.configure(self.options)
+        # ChromeConfig.configure(self.options)   INSTALLER
 
         # Link Generation
         self.start_urls = []
@@ -91,5 +91,5 @@ class GetDiscography:
 
 if __name__ == "__main__":
     main = GetDiscography()
-    main.selenium_html()
+    # main.selenium_html()
     main.scrape_html()
