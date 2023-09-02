@@ -12,17 +12,15 @@ root_link = 'https://www.azlyrics.com'
 div_tag = 'div'
 a_tag = 'a'
 div_attr = {'class': 'col-sm-6'}
+pages = 28
 
 
 class AllArtists:
     def __init__(self):
-        pass
+        self.scraped_data = {}
 
-    @staticmethod
-    def scrape_all_artists():
-        artists = []
-
-        for index in range(1, 28):
+    def scrape_all_artists(self):
+        for index in range(1, pages):
             # Scraping Mechanism
             contents = gu.read_contents(f'../../webpage/all_artists/page{index}.html')
             soup = BeautifulSoup(contents, 'lxml')
@@ -33,20 +31,19 @@ class AllArtists:
                 scraped_col = su.bs4_scrape(col, 'find_all', a_tag)
 
                 for r in scraped_col:
-                    artists.append(r.text)
+                    self.scraped_data[r.text] = r.get('href')
 
         # Storage
-        key_list = ['Artist']
-        values_list = [artists]
-        artists_dict = gu.create_dict(key_list, values_list)
-
+        artists_dict = {'Artists': self.scraped_data}
         gu.save_json('../../dataset/artists_data.json', artists_dict)
-        df = pd.DataFrame(artists_dict, columns=key_list)
-        gu.save_df(df, '../../dataset/artists_data.xlsx', 'xlsx')
-        gu.save_df(df, '../../dataset/artists_data.csv', 'csv')
+
+        columns = ['Artists', 'URLs']
+        artists_df = pd.DataFrame(artists_dict).reset_index()
+        artists_df.columns = columns
+        gu.save_df(artists_df, '../../dataset/artists_data.xlsx', 'xlsx')
+        gu.save_df(artists_df, '../../dataset/artists_data.csv', 'csv')
 
 
 if __name__ == "__main__":
     main = AllArtists()
     main.scrape_all_artists()
-
