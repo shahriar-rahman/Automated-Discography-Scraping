@@ -35,13 +35,13 @@ class AllArtists:
 
         # Storage
         artists_dict = {'Artists': self.scraped_data}
-        gu.save_json('../../dataset/artists_data.json', artists_dict)
+        gu.save_json('../../datasets/artists_data.json', artists_dict)
 
         columns = ['Artists', 'URLs']
         artists_df = pd.DataFrame(artists_dict).reset_index()
         artists_df.columns = columns
-        gu.save_df(artists_df, '../../dataset/artists_data.xlsx', 'xlsx')
-        gu.save_df(artists_df, '../../dataset/artists_data.csv', 'csv')
+        gu.save_df(artists_df, '../../datasets/artists_data.xlsx', 'xlsx')
+        gu.save_df(artists_df, '../../datasets/artists_data.csv', 'csv')
 
 
 if __name__ == "__main__":
