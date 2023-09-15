@@ -38,46 +38,22 @@ class ScrapingUtils:
 
     @staticmethod
     def bs4_scrape(soup, selector, keyword, attr=False):
-        soup_type = type(soup)
+        if not isinstance(soup, (bs4.BeautifulSoup, bs4.element.Tag, bs4.element.ResultSet)):
+            raise ValueError(
+                f"Invalid object type provided as 'soup': {type(soup)}. Expected: bs4.BeautifulSoup or Tag.")
 
-        if soup_type is bs4.BeautifulSoup or soup_type is bs4.element.Tag:
-            try:
-                if selector == 'findAll' or selector == 'find_all':
-                    if attr:
-                        data = soup.findAll(keyword, attrs=attr)
-                        return data
+        try:
+            if selector in {'findAll', 'find_all', 'find', 'find_next', 'findNext'}:
+                if attr:
+                    data = getattr(soup, selector)(keyword, attrs=attr)
+                else:
+                    data = getattr(soup, selector)(keyword)
+                return data
 
-                    else:
-                        data = soup.findAll(keyword)
-                        return data
+        except Exception as exc:
+            print(f"Error during scraping: {exc}")
 
-                elif selector == 'find':
-                    if attr:
-                        data = soup.find(keyword, attrs=attr)
-                        return data
-
-                    else:
-                        data = soup.find(keyword)
-                        return data
-
-                elif selector == 'find_next' or selector == 'findNext':
-                    if attr:
-                        data = soup.find_next(keyword, attrs=attr)
-                        return data
-
-                    else:
-                        data = soup.find_next(keyword)
-                        return data
-
-            except Exception as exc:
-                print("! ", exc)
-                return ''
-
-            else:
-                print("> Attribute successfully scraped.")
-
-        else:
-            raise ValueError("! Invalid object. Expected: 'bs4.BeautifulSoup'. Got:", soup_type)
+        return None
 
 
 if __name__ == "__main__":

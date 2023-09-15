@@ -83,10 +83,10 @@ class GetDiscography:
         values_list = [list_tracks, list_artist, list_album, list_href]
         discography_dict = gu.create_dict(key_list, values_list)
 
-        gu.save_json('../../dataset/discography_data.json', discography_dict)
+        gu.save_json('../../datasets/discography_data.json', discography_dict)
         df = pd.DataFrame(discography_dict, columns=key_list)
-        gu.save_df(df, '../../dataset/discography_data.xlsx', 'xlsx')
-        gu.save_df(df, '../../dataset/discography_data.csv', 'csv')
+        gu.save_df(df, '../../datasets/discography_data.xlsx', 'xlsx')
+        gu.save_df(df, '../../datasets/discography_data.csv', 'csv')
 
 
 if __name__ == "__main__":
